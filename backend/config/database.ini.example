@@ -1,0 +1,36 @@
+; ---------------------------------------------------------------
+; Iris International - database & app settings
+; Copy to database.ini (same folder) and fill in. Never commit database.ini.
+; Environment variables INTL_DB_HOST, INTL_DB_PORT, INTL_DB_NAME,
+; INTL_DB_USER, INTL_DB_PASSWORD, INTL_DB_SSLMODE override this file.
+; This file is separate from the Iris group dashboard's settings.
+; ---------------------------------------------------------------
+
+[postgres]
+host     = your-db-host.example.com
+port     = 5432
+dbname   = your_database
+user     = readonly_user
+password = change_me
+; disable | allow | prefer | require | verify-ca | verify-full
+sslmode  = prefer
+search_path = gold,silver,silver_static,public
+pool_max = 3
+
+[app]
+; true = sample data for testing only (shows a SAMPLE DATA banner)
+demo_mode = false
+statement_timeout_seconds = 600
+; results are kept in memory for this many minutes and pre-loaded again after that
+cache_ttl_minutes = 60
+background_refresh = true
+; true = read the export view ONCE per refresh into a session TEMP table (dropped at
+; commit, nothing is created in gold). false / no TEMP right = self-contained queries.
+use_temp_tables = true
+; the export view Tableau also reads (read-only)
+export_object = gold.vw_sales_extract_export_ganit_dashboard
+
+[server]
+; 127.0.0.1 = this PC only; 0.0.0.0 = other PCs on the network
+host = 127.0.0.1
+port = 8020
